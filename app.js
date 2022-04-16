@@ -44,11 +44,24 @@ require('dotenv').config();
 const cors = require('cors')
 const express = require('express');
 const { PORT, MONGO_URI } = process.env;
+// 1. app을 전달
 const app = express();
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors()); 
+
+//추가
+const APP = './app/routes'
+// loop를 돌면서 찾음
+const nodes = ['basic']
+for(const leaf of nodes){
+  // import되고 router폴더가 접미사로 들어가서 찾게 되어있음
+  // 2. app의 자식을 만듦 > 메모리 절약위해
+  // request가 전달
+  require(`${APP}/${leaf}.route`)({url:`/api/${leaf}`, app}) // 즉시 실행(url을 체크)
+  // basic.route.js를 바라보게됨
+}
 const corsOptions = {
   origin: 'http://localhost:3000',
   optionsSuccessStatus: 200 

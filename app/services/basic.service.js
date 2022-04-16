@@ -1,12 +1,17 @@
+// payload는 db에 저장되는 값 => 실제값만 가져옴
+// request body가 payload된다
 exports.bmi = (payload) => {
     const {name, height, weight} = payload
+
+    // 밑에는 바닐라JS임
     //Obtain user inputs
     let _height=Number(height);
+    let h = _height/100 // cm단위를 m로 변경
     let _weight=Number(weight);
 
     //Perform calculation
-    let bmi = _weight/Math.pow(_height,2);
-
+    let bmi = _weight/Math.pow(h,2);
+    console.log('bmi값' + bmi)
     let output = Math.round(bmi*100)/100;
     var result = {name, height, weight}
     console.log(`계산중인 값들 : ${JSON.stringify(result)}`)
